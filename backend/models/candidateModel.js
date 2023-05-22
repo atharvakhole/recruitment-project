@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const recruiterSchema = mongoose.Schema(
+const cadidateSchema = mongoose.Schema(
   {
     username: {
       type: String,
@@ -24,14 +24,10 @@ const recruiterSchema = mongoose.Schema(
       type: String,
       required: [true, "Please enter your last name"],
     },
-    companyName: {
-      type: String,
-      required: [true, "Please enter a company name"],
-    },
   },
   {
     timestamps: true,
   }
 );
 
-module.exports = mongoose.model("Recruiter", recruiterSchema);
+module.exports = mongoose.model("Candidate", cadidateSchema);

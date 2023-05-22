@@ -34,6 +34,9 @@ const setRecruiter = async (req, res, next) => {
 
     res.status(201).send({ recruiter });
   } catch (err) {
+    if (err.code === 11000) {
+      err.message = "Username not available";
+    }
     next(err);
   }
 };
