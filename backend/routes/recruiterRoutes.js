@@ -1,27 +1,15 @@
 const express = require("express");
 const router = express.Router();
+const {
+  getRecruiters,
+  setRecruiter,
+  updateRecruiter,
+} = require("../controllers/recruiterController");
 
-router.get("/", (req, res) => {
-  res.status(200).json({
-    message: "Recruiters[]",
-  });
-});
+router.get("/", getRecruiters);
 
-router.post("/", (req, res) => {
-  res.status(200).json({
-    message: "New recruiter created",
-  });
-});
+router.post("/", setRecruiter);
 
-router.put("/:id", (req, res) => {
-  res.status(200).json({
-    message: `Update recruiter ${req.params.id}`,
-  });
-});
+router.put("/:id", updateRecruiter);
 
-router.delete("/:id", (req, res) => {
-  res.status(200).json({
-    message: `Delete recruiter ${req.params.id}`,
-  });
-});
 module.exports = router;
