@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from "react-router-dom";
+import "./App.css";
+import Login from "./components/Login";
+import Home from "./components/Home";
+import { AuthProvider } from "./hooks/useAuth";
+import Register from "./components/Register";
+import HomeLayout from "./components/HomeLayout";
+import { ProtectedRoutes } from "./components/ProtectedRoute";
+import CreateProfile from "./components/CreateProfile";
+import CreateListing from "./components/CreateListing";
+import CandidateDashboard from "./components/CandidateDashboard";
+import RecruiterDashboard from "./components/RecruiterDashboard";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <AuthProvider>
+      <Routes>
+        <Route path="/" element={<HomeLayout />}>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/register" element={<Register />} />
+        </Route>
+
+        <Route
+          path="/candidate"
+          element={<ProtectedRoutes roleRequired="candidate" />}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <Route path="" element={<CandidateDashboard />} />
+          <Route path="create-profile" element={<CreateProfile />} />
+        </Route>
+
+        <Route
+          path="/recruiter"
+          element={<ProtectedRoutes roleRequired="recruiter" />}
+        >
+          <Route path="" element={<RecruiterDashboard />} />
+          <Route path="create-listing" element={<CreateListing />} />
+        </Route>
+      </Routes>
+    </AuthProvider>
   );
-}
+};
 
 export default App;
