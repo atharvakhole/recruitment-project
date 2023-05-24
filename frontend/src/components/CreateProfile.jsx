@@ -3,13 +3,7 @@ import { useAuth } from "../hooks/useAuth";
 
 const CreateProfile = () => {
   const { user, role } = useAuth();
-  return (
-    <div>
-      {user}
-      <br />
-      {role}
-    </div>
-  );
+  return <div>Create Profile</div>;
 };
 
 export default CreateProfile;

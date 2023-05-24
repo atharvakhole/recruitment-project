@@ -77,6 +77,8 @@ const RecruiterPanel = () => {
         username: response.data.username,
         role: response.data.role,
         token: response.data.token,
+        firstName: response.data.firstName,
+        lastName: response.data.lastName,
       });
       navigate("/");
     } catch (error) {
@@ -222,6 +224,8 @@ const CandidatePanel = () => {
         username: response.data.username,
         role: response.data.role,
         token: response.data.token,
+        firstName: response.data.firstName,
+        lastName: response.data.lastName,
       });
       navigate("/");
     } catch (error) {

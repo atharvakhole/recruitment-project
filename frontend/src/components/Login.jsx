@@ -62,6 +62,8 @@ const Login = () => {
         username: response.data.username,
         role: response.data.role,
         token: response.data.token,
+        firstName: response.data.firstName,
+        lastName: response.data.lastName,
       });
       navigate("/");
     } catch (error) {
@@ -128,7 +130,7 @@ const Login = () => {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

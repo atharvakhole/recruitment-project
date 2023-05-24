@@ -7,6 +7,8 @@ export const AuthProvider = ({ children }) => {
   const [username, setUsername] = useLocalStorage("username", null);
   const [role, setRole] = useLocalStorage("role", null);
   const [token, setToken] = useLocalStorage("token", null);
+  const [firstName, setFirstName] = useLocalStorage("firstName", null);
+  const [lastName, setLastName] = useLocalStorage("lastName", null);
   const navigate = useNavigate();
 
   // call this function when you want to authenticate the user
@@ -14,6 +16,8 @@ export const AuthProvider = ({ children }) => {
     setUsername(data.username);
     setRole(data.role);
     setToken(data.token);
+    setFirstName(data.firstName);
+    setLastName(data.lastName);
     navigate("/profile");
   };
 
@@ -22,11 +26,15 @@ export const AuthProvider = ({ children }) => {
     setUsername(null);
     setRole(null);
     setToken(null);
+    setFirstName(null);
+    setLastName(null);
     navigate("/", { replace: true });
   };
 
   return (
-    <AuthContext.Provider value={{ username, role, token, login, logout }}>
+    <AuthContext.Provider
+      value={{ username, role, token, firstName, lastName, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -18,6 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api/recruiters", require("./routes/recruiterRoutes"));
 app.use("/api/candidates", require("./routes/candidateRoutes"));
 app.use("/api/login", require("./routes/loginRoutes"));
+app.use("/api/profiles", require("./routes/candidateProfileRoutes"));
 
 app.use(errorHandler);
 app.listen(port, () => console.log(`Server started on port ${port}`));

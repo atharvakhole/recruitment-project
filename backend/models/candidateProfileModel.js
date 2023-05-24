@@ -20,6 +20,12 @@ const candidateProfileSchema = mongoose.Schema({
       message: "At least one skill is required.",
     },
   },
+
+  candidate: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "Candidate",
+  },
 });
 
 module.exports = mongoose.model("CandidateProfile", candidateProfileSchema);
