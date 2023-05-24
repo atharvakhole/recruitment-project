@@ -4,27 +4,29 @@ import { useLocalStorage } from "./useLocalStorage";
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useLocalStorage("user", null);
+  const [username, setUsername] = useLocalStorage("username", null);
   const [role, setRole] = useLocalStorage("role", null);
+  const [token, setToken] = useLocalStorage("token", null);
   const navigate = useNavigate();
 
   // call this function when you want to authenticate the user
   const login = async (data) => {
-    console.log("Login");
-    setUser(data.user);
+    setUsername(data.username);
     setRole(data.role);
+    setToken(data.token);
     navigate("/profile");
   };
 
   // call this function to sign out logged in user
   const logout = () => {
-    setUser(null);
+    setUsername(null);
     setRole(null);
+    setToken(null);
     navigate("/", { replace: true });
   };
 
   return (
-    <AuthContext.Provider value={{ user, role, login, logout }}>
+    <AuthContext.Provider value={{ username, role, token, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

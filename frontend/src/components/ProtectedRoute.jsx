@@ -2,14 +2,14 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
 export const ProtectedRoutes = (props) => {
-  const { user, role } = useAuth();
+  const { username, role, token } = useAuth();
   if (props.roleRequired) {
-    return user && props.roleRequired === role ? (
+    return username && token && props.roleRequired === role ? (
       <Outlet />
     ) : (
       <Navigate to={"/login"} />
     );
   } else {
-    return user ? <Outlet /> : <Navigate to={"/login"} />;
+    return token ? <Outlet /> : <Navigate to={"/login"} />;
   }
 };

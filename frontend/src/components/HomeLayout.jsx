@@ -3,9 +3,9 @@ import { useAuth } from "../hooks/useAuth";
 import { Navigate, Outlet } from "react-router-dom";
 
 const HomeLayout = () => {
-  const { user, role } = useAuth();
+  const { username, role, token } = useAuth();
 
-  if (user) {
+  if (token && username) {
     return role === "candidate" ? (
       <Navigate to={"/candidate"} />
     ) : (

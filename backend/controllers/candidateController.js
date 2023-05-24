@@ -46,7 +46,6 @@ const setCandidate = async (req, res, next) => {
 
     if (existingUser) {
       res.status(400);
-      console.log("1");
       throw new Error("Username not available");
     }
 
@@ -63,14 +62,14 @@ const setCandidate = async (req, res, next) => {
       username: candidate.username,
       firstName: candidate.firstName,
       lastName: candidate.lastName,
-      type: "candidate",
+      role: "candidate",
       token: generateToken(candidate._id),
     };
     res.status(201).send(data);
   } catch (err) {
     if (err.code === 11000) {
+      res.status(400);
       err.message = "Username not available";
-      console.log("2");
     }
     next(err);
   }

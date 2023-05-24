@@ -12,7 +12,7 @@ const attemptLogin = async (req, res, next) => {
           username: user.username,
           firstName: user.firstName,
           lastName: user.lastName,
-          type: "candidate",
+          role: "candidate",
           token: generateToken(user._id),
         });
       } else {
@@ -27,7 +27,7 @@ const attemptLogin = async (req, res, next) => {
             username: user.username,
             firstName: user.firstName,
             lastName: user.lastName,
-            type: "recruiter",
+            role: "recruiter",
             token: generateToken(user._id),
           });
         } else {
@@ -35,6 +35,7 @@ const attemptLogin = async (req, res, next) => {
           throw new Error("Invalid credentials");
         }
       } else {
+        res.status(400);
         throw new Error("User not found");
       }
     }

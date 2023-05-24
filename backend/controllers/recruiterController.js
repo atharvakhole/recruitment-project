@@ -40,7 +40,6 @@ const setRecruiter = async (req, res, next) => {
       password: req.body.password,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      type: "recruiter",
       companyName: req.body.companyName,
     });
 
@@ -49,11 +48,13 @@ const setRecruiter = async (req, res, next) => {
       username: recruiter.username,
       firstName: recruiter.firstName,
       lastName: recruiter.lastName,
+      role: "recruiter",
       token: generateToken(recruiter._id),
     };
     res.status(201).send(data);
   } catch (err) {
     if (err.code === 11000) {
+      res.status(400);
       err.message = "Username not available";
     }
     next(err);
