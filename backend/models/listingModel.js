@@ -14,9 +14,6 @@ const listingSchema = mongoose.Schema({
     type: String,
     required: [true, "Please add a location"],
   },
-  duration: {
-    type: String,
-  },
   description: {
     type: String,
     required: [true, "Please add a description"],
@@ -40,4 +37,4 @@ const listingSchema = mongoose.Schema({
   ],
 });
 
-mondule.exports = mongoose.model("Listing", listingSchema);
+module.exports = mongoose.model("Listing", listingSchema);

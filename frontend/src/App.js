@@ -12,6 +12,7 @@ import CandidateDashboard from "./components/CandidateDashboard";
 import RecruiterDashboard from "./components/RecruiterDashboard";
 import theme from "./assets/theme";
 import { ThemeProvider } from "@emotion/react";
+import JobPage from "./components/JobPage";
 
 const App = () => {
   return (
@@ -37,6 +38,7 @@ const App = () => {
             element={<ProtectedRoutes roleRequired="recruiter" />}
           >
             <Route path="" element={<RecruiterDashboard />} />
+            <Route path=":id" element={<JobPage />} />
             <Route path="create-listing" element={<CreateListing />} />
           </Route>
         </Routes>

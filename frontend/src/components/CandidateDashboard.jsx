@@ -20,15 +20,13 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { useAuth } from "../hooks/useAuth";
 import ShareIcon from "@mui/icons-material/Share";
 import missing from "../assets/missing.png";
-
-const tempData = {
-  university: "University of Wollongong, Australia",
-  degree: "Bachelor of Computer Science (BCS)",
-  skills: ["React", "Javascript", "TypeScript", "Node.js"],
-};
+import axios from "axios";
+import { useEffect, useState } from "react";
+import serverUrl from "../config/backend-url";
 
 const MissingProfile = ({ firstName, lastName }) => {
   const navigate = useNavigate();
+
   return (
     <Card sx={{ minWidth: "40rem" }} variant="outlined">
       <CardContent>
@@ -76,7 +74,32 @@ const MissingProfile = ({ firstName, lastName }) => {
 
 const CandidateDahsboard = () => {
   const navigate = useNavigate();
-  const { username, logout, firstName, lastName } = useAuth();
+  const { username, logout, firstName, lastName, token } = useAuth();
+
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${serverUrl}/profiles/my`, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+        console.log(response);
+        setData(response.data);
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [token]);
+
+  if (loading) {
+    return <>loading</>;
+  }
 
   return (
     <Container sx={{ display: "grid" }} maxWidth={"lg"}>
@@ -125,72 +148,15 @@ const CandidateDahsboard = () => {
       </AppBar>
       <Box sx={{ display: "grid", px: "1.25rem", width: "40rem", gap: "2rem" }}>
         <Typography variant="h2">WELCOME {username.toUpperCase()}</Typography>
-        <Box sx={{ display: "flex", p: "2rem", gap: "3rem" }}>
-          {false ? (
-            <Card sx={{ minWidth: "40rem" }} variant="outlined">
-              <CardContent>
-                <Typography
-                  sx={{ fontSize: "0.8rem" }}
-                  color="text.secondary"
-                  gutterBottom
-                >
-                  Your Profile
-                </Typography>
-                <Typography variant="h5" component="div">
-                  {firstName} {lastName}
-                </Typography>
-                <Divider />
-
-                <Typography sx={{ my: 1.5 }} color="text.secondary">
-                  Education
-                </Typography>
-                <Typography variant="body2">{tempData.university}</Typography>
-                <Typography variant="body1" fontWeight={700}>
-                  {tempData.degree}
-                </Typography>
-
-                <Typography sx={{ my: 1.5 }} color="text.secondary">
-                  Skills
-                </Typography>
-                <List
-                  sx={{
-                    listStyleType: "disc",
-                    pl: 2,
-                  }}
-                >
-                  {tempData.skills.map((value, index) => {
-                    return (
-                      <ListItem
-                        key={index}
-                        sx={{
-                          display: "list-item",
-                          py: 0,
-                        }}
-                      >
-                        {value}
-                      </ListItem>
-                    );
-                  })}
-                </List>
-              </CardContent>
-              <CardActions>
-                <Button endIcon={<ShareIcon />} size="small">
-                  Share
-                </Button>
-              </CardActions>
-            </Card>
-          ) : (
-            <MissingProfile firstName={firstName} lastName={lastName} />
-          )}
-
-          <Card sx={{ minWidth: "20rem" }} variant="outlined">
+        {data ? (
+          <Card sx={{ minWidth: "40rem" }} variant="outlined">
             <CardContent>
               <Typography
                 sx={{ fontSize: "0.8rem" }}
                 color="text.secondary"
                 gutterBottom
               >
-                Your Activity
+                Your Profile
               </Typography>
               <Typography variant="h5" component="div">
                 {firstName} {lastName}
@@ -200,9 +166,8 @@ const CandidateDahsboard = () => {
               <Typography sx={{ my: 1.5 }} color="text.secondary">
                 Education
               </Typography>
-              <Typography variant="body2">{tempData.university}</Typography>
               <Typography variant="body1" fontWeight={700}>
-                {tempData.degree}
+                {data.degree}
               </Typography>
 
               <Typography sx={{ my: 1.5 }} color="text.secondary">
@@ -214,7 +179,7 @@ const CandidateDahsboard = () => {
                   pl: 2,
                 }}
               >
-                {tempData.skills.map((value, index) => {
+                {data.skills.map((value, index) => {
                   return (
                     <ListItem
                       key={index}
@@ -229,8 +194,15 @@ const CandidateDahsboard = () => {
                 })}
               </List>
             </CardContent>
+            <CardActions>
+              <Button endIcon={<ShareIcon />} size="small">
+                Share
+              </Button>
+            </CardActions>
           </Card>
-        </Box>
+        ) : (
+          <MissingProfile firstName={firstName} lastName={lastName} />
+        )}
         <Typography variant="body1" maxWidth={"50rem"}>
           Our algorithm automatically shares your profile with relevant
           recruiters and hiring managers. Make sure to keep it updated and look
